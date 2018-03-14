@@ -32,6 +32,27 @@ function loadIcons(arr){
 }
 
 $(document).on("click", ".card", function(){
-	memory.currentFlip.push(this.className);
-	this.className += " rotate"
+	if(memory.currentFlip.length == 0){
+		memory.currentFlip.push(this.className);
+		this.className += " rotate"
+	} else {
+		memory.currentFlip.push(this.className);
+		if(memory.currentFlip[0] == memory.currentFlip[1]){
+			let classes = memory.currentFlip[0].split(" ")
+			this.className += " rotate";
+			$("." + classes[1]).addClass("correct");
+		} else{
+			let classes1 = memory.currentFlip[0].split(" ");
+			let classes2 = memory.currentFlip[1].split(" ");
+
+			this.className += " rotate";
+			setTimeout(function(){
+				$("." + classes1[1]).removeClass("rotate");
+				$("." + classes2[1]).removeClass("rotate");
+			}, 1000)
+		}
+
+		memory.currentFlip = [];
+	}
+	
 })

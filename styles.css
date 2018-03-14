@@ -29,6 +29,9 @@
 .rotate {
 	transform: rotateY(180deg);
 }
+.correct .back{
+	background: #3DDCB9;
+}
 
 .front, .back {
 	position: absolute;
