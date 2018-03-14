@@ -30,3 +30,8 @@ function loadIcons(arr){
 			</div>`)
 	}
 }
+
+$(document).on("click", ".card", function(){
+	memory.currentFlip.push(this.className);
+	this.className += " rotate"
+})

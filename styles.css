@@ -24,6 +24,9 @@
 }
 .card:hover {
 	cursor: pointer;
+	
+}
+.rotate {
 	transform: rotateY(180deg);
 }
 
