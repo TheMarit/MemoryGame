@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Memory Game</title>
 	<link rel="stylesheet" href="styles.css">
+	<link href="https://fonts.googleapis.com/css?family=Mina" rel="stylesheet">
 	<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 	<script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -11,7 +12,16 @@
   crossorigin="anonymous"></script>
 </head>
 <body>
+	<h1>Memory Game</h1>
 	<div class="container">
+		<div class="display">
+			<div class="moves">
+				moves: <span id="movesCounter">0</span>
+			</div>
+			<div class="time">
+				time: <span id="timer">0:00</span>
+			</div>
+		</div>
 		<div id="game">
 
 

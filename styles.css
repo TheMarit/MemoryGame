@@ -1,19 +1,38 @@
+body{
+	font-family: 'Mina', sans-serif;
+	color: #313E48;
+	font-size: 25px;
+	text-align: center;
+}
+h1{
+	margin: 10px;
+	font-size: 35px;
+}
 #game{
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
 	align-content: space-around;
-	max-width: 600px;
-	height: 600px;
-	margin: auto;
+	height: 480px;
 	background: linear-gradient(to bottom right, #3EDCBA, #7A669B);;
 	border-radius: 10px;
-	padding: 10px;
+	padding: 8px;
+}
+.container{
+	display: flex;
+	flex-direction: column;
+	width: 480px;
+	margin: auto;
+}
+.display{
+	display: flex;
+	justify-content: space-around;
+
 }
 .cardcontainer {
 	position: relative;
-	width: 121px;
-	height: 121px;	
+	width: 100px;
+	height: 100px;	
 }
 .card {
 	position: absolute;

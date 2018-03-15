@@ -1,6 +1,7 @@
 let memory = {
 	currentFlip: [],
 	completed: [],
+	moves: 0,
 	icons: [{"name": "plane", "num": 1}, {"name": "plane", "num": 2}, {"name": "coffee", "num": 1}, {"name": "coffee", "num": 2},  {"name": "beer", "num": 1}, {"name": "beer", "num": 2}, {"name": "bicycle", "num": 1}, {"name": "bicycle", "num": 2},  {"name": "umbrella", "num": 1},  {"name": "heart", "num": 1},  {"name": "bolt", "num": 1},  {"name": "tree", "num": 1}, {"name": "umbrella", "num": 2},  {"name": "heart", "num": 2},  {"name": "bolt", "num": 2},  {"name": "tree", "num": 2},]
 }
 
@@ -38,6 +39,8 @@ $(document).on("click", ".card", function(){
 			memory.currentFlip.push(this.id);
 			this.className += " rotate block"
 		} else {
+			memory.moves += 1;
+			updateMoves();
 			memory.currentFlip.push(this.id);
 			if(memory.currentFlip[0].slice(1) == memory.currentFlip[1].slice(1)){
 				$("#" + this.id).addClass("rotate");
@@ -64,6 +67,10 @@ $(document).on("click", ".card", function(){
 	
 });
 
+function updateMoves(){
+	$("#movesCounter").html(memory.moves);
+}
+
 async function checkforGameOver(){
 	if (memory.completed.length == 16){
 		await flipCards();
@@ -71,6 +78,8 @@ async function checkforGameOver(){
 		loadIcons(memory.icons);
 		memory.currentFlip = [];
 		memory.completed = [];
+		memory.moves = 0;
+		updateMoves();
 	}
 }
 
