@@ -71,8 +71,25 @@ function updateMoves(){
 	$("#movesCounter").html(memory.moves);
 }
 
+function displayWinMessage(){
+	$("h2").html(`You Win!<br/>You used ${memory.moves} moves`);
+	$("#messageWrapper").css("display", "block");
+	setTimeout(function(){
+		$(".container").css("opacity", "0.5");
+		setTimeout(function(){
+			$("#messageWrapper").css("opacity", "1");
+		}, 500);
+	}, 500);
+}
+$(document).on("click", "#close", function(){
+	$(".container").css("opacity", "1");
+	$("#messageWrapper").css("display", "none");
+	$("#messageWrapper").css("opacity", "0");
+});
+
 async function checkforGameOver(){
 	if (memory.completed.length == 16){
+		displayWinMessage()
 		await flipCards();
 		$("#game").empty();
 		loadIcons(memory.icons);
