@@ -44,6 +44,7 @@ $(document).on("click", ".card", function(){
 				$("." + this.id.slice(1)).addClass("correct block");
 				memory.completed.push(memory.currentFlip[0], memory.currentFlip[1]);
 				memory.currentFlip = [];
+				checkforGameOver();
 			} else{
 				$("#" + memory.currentFlip[0]).addClass("wrong")
 				$("#" + this.id).addClass("rotate wrong block");
@@ -61,4 +62,21 @@ $(document).on("click", ".card", function(){
 		}
 	}
 	
-})
+});
+
+async function checkforGameOver(){
+	if (memory.completed.length == 16){
+		await flipCards();
+		$("#game").empty();
+		loadIcons(memory.icons);
+		memory.currentFlip = [];
+		memory.completed = [];
+	}
+}
+
+async function flipCards(){
+	for(const icon of memory.icons){
+		await new Promise(resolve => setTimeout(resolve, 150));
+		$(".rotate:first").removeClass("rotate");
+	}
+}
