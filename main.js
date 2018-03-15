@@ -33,34 +33,32 @@ function loadIcons(arr){
 }
 
 $(document).on("click", ".card", function(){
+	if(!$("#" + this.id).hasClass("block") && memory.currentFlip.length < 2){
+		if(memory.currentFlip.length == 0){
+			memory.currentFlip.push(this.id);
+			this.className += " rotate block"
+		} else {
+			memory.currentFlip.push(this.id);
+			if(memory.currentFlip[0].slice(1) == memory.currentFlip[1].slice(1)){
+				$("#" + this.id).addClass("rotate");
+				$("." + this.id.slice(1)).addClass("correct block");
+				memory.completed.push(memory.currentFlip[0], memory.currentFlip[1]);
+				memory.currentFlip = [];
+			} else{
+				$("#" + memory.currentFlip[0]).addClass("wrong")
+				$("#" + this.id).addClass("rotate wrong block");
+				setTimeout(function(){
+					$("#" + memory.currentFlip[0]).removeClass("rotate");
+					$("#" + memory.currentFlip[1]).removeClass("rotate");
+				}, 1000)
+				setTimeout(function(){
+					$("#" + memory.currentFlip[0]).removeClass("wrong block");
+					$("#" + memory.currentFlip[1]).removeClass("wrong block");
+					memory.currentFlip = [];
+				}, 1500)
+			}
 
-
-	if(memory.currentFlip.length == 0){
-		memory.currentFlip.push(this.className);
-		this.className += " rotate"
-	} else {
-		memory.currentFlip.push(this.className);
-		if(memory.currentFlip[0] == memory.currentFlip[1]){
-			let classes = memory.currentFlip[0].split(" ");
-			this.className += " rotate";
-			$("." + classes[1]).addClass("correct");
-			memory.completed.push(classes[1]);
-		} else{
-			let classes1 = memory.currentFlip[0].split(" ");
-			let classes2 = memory.currentFlip[1].split(" ");
-			$(".rotate." + classes1[1]).addClass("rotate wrong");
-			this.className += " rotate wrong";
-			setTimeout(function(){
-				$("." + classes1[1]).removeClass("rotate");
-				$("." + classes2[1]).removeClass("rotate");
-			}, 1000)
-			setTimeout(function(){
-				$("." + classes1[1]).removeClass("wrong");
-				$("." + classes2[1]).removeClass("wrong");
-			}, 1500)
 		}
-
-		memory.currentFlip = [];
 	}
 	
 })

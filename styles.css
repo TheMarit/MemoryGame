@@ -24,7 +24,9 @@
 }
 .card:hover {
 	cursor: pointer;
-	
+}
+#game .cardcontainer .card.block{
+	cursor: default;
 }
 .rotate {
 	transform: rotateY(180deg);
