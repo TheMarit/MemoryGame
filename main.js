@@ -2,6 +2,8 @@ let memory = {
 	currentFlip: [],
 	completed: [],
 	moves: 0,
+	firstClick: true,
+	timer: 0,
 	icons: [{"name": "plane", "num": 1}, {"name": "plane", "num": 2}, {"name": "coffee", "num": 1}, {"name": "coffee", "num": 2},  {"name": "beer", "num": 1}, {"name": "beer", "num": 2}, {"name": "bicycle", "num": 1}, {"name": "bicycle", "num": 2},  {"name": "umbrella", "num": 1},  {"name": "heart", "num": 1},  {"name": "bolt", "num": 1},  {"name": "tree", "num": 1}, {"name": "umbrella", "num": 2},  {"name": "heart", "num": 2},  {"name": "bolt", "num": 2},  {"name": "tree", "num": 2},]
 }
 
@@ -34,6 +36,15 @@ function loadIcons(arr){
 }
 
 $(document).on("click", ".card", function(){
+	if(memory.firstClick){
+		console.log("start Timer");
+		memory.firstClick = false;
+		window.intervalID = setInterval(function(){
+			memory.timer += 1;
+			let [hours, min, sec] = changeSecIntoTime(memory.timer);
+			updateTime(hours, min, sec);
+		}, 1000);
+	}
 	if(!$("#" + this.id).hasClass("block") && memory.currentFlip.length < 2){
 		if(memory.currentFlip.length == 0){
 			memory.currentFlip.push(this.id);
@@ -72,7 +83,18 @@ function updateMoves(){
 }
 
 function displayWinMessage(){
-	$("h2").html(`You Win!<br/>You used ${memory.moves} moves`);
+	let [hours, min, sec] = changeSecIntoTime(memory.timer);
+	$("h2").html(`You Win!<br/>You used ${memory.moves} moves and <br/> took <span id="displayMessageMin"></span>${sec} seconds`);
+	if(min !=0){
+		if(min == 1){
+			$("#displayMessageMin").html(`<span id="displayMessageHours"></span>${min} minute and `)
+		} else{
+			$("#displayMessageMin").html(`<span id="displayMessageHours"></span>${min} minutes and `)
+		}
+	}
+	if(hours !=0){
+		$("#displayMessageHours").html(`${hours} hours and `)
+	}
 	$("#messageWrapper").css("display", "block");
 	setTimeout(function(){
 		$(".container").css("opacity", "0.5");
@@ -89,6 +111,7 @@ $(document).on("click", "#close", function(){
 
 async function checkforGameOver(){
 	if (memory.completed.length == 16){
+		clearInterval(intervalID);
 		displayWinMessage()
 		await flipCards();
 		$("#game").empty();
@@ -97,6 +120,8 @@ async function checkforGameOver(){
 		memory.completed = [];
 		memory.moves = 0;
 		updateMoves();
+		memory.timer = 0;
+		$(".time").html(`time: <span id="timerHours"></span><span id="timerMin">0</span>:<span id="timerSec">00</span>`)
 	}
 }
 
@@ -105,4 +130,31 @@ async function flipCards(){
 		await new Promise(resolve => setTimeout(resolve, 150));
 		$(".rotate:first").removeClass("rotate");
 	}
+}
+
+function changeSecIntoTime(sec){
+	var min = 0;
+	var hours = 0;
+	while(sec >= 3600){
+		hours++
+		sec = sec - 3600;
+	}
+	while(sec >= 60){
+		min++
+		sec = sec - 60
+	}
+	return [hours, min, sec]
+}
+function updateTime(hours, min, sec){
+	if (hours != 0){
+		$("#timerHours").text(hours + ":");
+	}
+	$("#timerMin").text(min);
+	if(sec.toString().length === 1){
+		$("#timerSec").text("0" + sec);
+	} else{
+		$("#timerSec").text(sec);
+	}
+		
+	
 }
