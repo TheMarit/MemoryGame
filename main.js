@@ -121,6 +121,7 @@ async function checkforGameOver(){
 		memory.moves = 0;
 		updateMoves();
 		memory.timer = 0;
+		memory.firstClick = true;
 		$(".time").html(`time: <span id="timerHours"></span><span id="timerMin">0</span>:<span id="timerSec">00</span>`)
 	}
 }
